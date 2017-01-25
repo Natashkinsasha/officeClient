@@ -16,30 +16,40 @@ export function postBookingRequestsUnsucces(response) {
 
 export function closeBookingRequestsResponse() {
     return {
-        types: types.CLOSE_BOOKINGREQUEST_RESPONSE,
+        type: types.CLOSE_BOOKINGREQUEST_RESPONSE,
     };
 
 }
 
 export function initialState() {
     return {
-        types: types.INITIAL_STATE,
+        type: types.INITIAL_STATE,
     };
 }
 
 export function addBookingRequest(bookingRequest) {
+
     return {
-        types: types.ADD_BOOKINGREQUEST,
-        bookingRequest:bookingRequest,
+        type: types.ADD_BOOKINGREQUEST,
+        bookingRequest: bookingRequest,
     };
 }
 
 export function removeBookingRequest(id) {
     return {
-        types: types.REMOVE_BOOKINGREQUEST,
-        id:id,
-};
+        type: types.REMOVE_BOOKINGREQUEST,
+        id: id,
+    };
 }
+
+export function updateBookingRequest(bookingRequest) {
+    return {
+        type: types.UPDATE_BOOKINGREQUEST,
+        bookingRequest: bookingRequest,
+    };
+}
+
+
 
 
 

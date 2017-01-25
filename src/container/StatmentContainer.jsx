@@ -10,23 +10,27 @@ class BookingRequestContainer extends React.Component {
         super(props);
     }
 
-    post(startWorkTime, finishWorkTime, bookingRequests) {
+    post = (startWorkTime, finishWorkTime, bookingRequests) => {
         bookingRequestsApi.postBookingRequests(startWorkTime, finishWorkTime, bookingRequests);
     }
 
-    add(bookingRequest) {
+    add = (bookingRequest) => {
         bookingRequestsApi.addBookingRequest(bookingRequest);
     }
 
-    remove(id){
+    remove = (id) => {
         bookingRequestsApi.removeBookingRequest(id);
+    }
+
+    update = (bookingRequest) => {
+        bookingRequestsApi.updateBookingRequest(bookingRequest);
     }
 
 
     render() {
         return (
             <div>
-                <Statement bookingRequests={this.props.bookingRequests} onAddClick={this.add} onRemoveClick={this.remove} onPostClick={this.post}/>
+                <Statement bookingRequests={this.props.bookingRequests} onAdd={this.add} onRemove={this.remove} onPost={this.post} onUpdate={this.update}/>
             </div>
         );
     }

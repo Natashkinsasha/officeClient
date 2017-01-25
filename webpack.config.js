@@ -28,12 +28,17 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: "style-loader!css-loader!autoprefixer-loader",
+                loader: 'style!css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass',
                 exclude: [/node_modules/, /public/]
             },
             {
                 test: /\.less$/,
                 loader: "style-loader!css-loader!autoprefixer-loader!less",
+                exclude: [/node_modules/, /public/]
+            },
+            {
+                test: /\.scss$/,
+                loaders: ["style-loader", "css-loader", "sass-loader", 'postcss-loader'],
                 exclude: [/node_modules/, /public/]
             },
             {
@@ -71,7 +76,8 @@ module.exports = {
     },
     devServer: {
         contentBase: "./public",
-        hot: true
+        hot: true,
+        port: 8000
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),

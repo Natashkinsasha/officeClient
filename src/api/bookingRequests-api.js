@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../store/configureStore";
-import * as action from "../actions/bookingRequests-action";
+import * as types from "../actions/bookingRequests-action";
 
 import moment from 'moment'
 
@@ -11,19 +11,23 @@ const baseAxiosConfig = axios.create({
 
 
 export function addBookingRequest(bookingRequest) {
-    store.dispatch(action.addBookingRequest(bookingRequest));
+    store.dispatch(types.addBookingRequest(bookingRequest));
 }
 
 export function removeBookingRequest(id) {
-    store.dispatch(action.removeBookingRequest(id));
+    store.dispatch(types.removeBookingRequest(id));
 }
 
 export function closeBookingRequestsResponse() {
-    store.dispatch(action.closeBookingRequestsResponse());
+    store.dispatch(types.closeBookingRequestsResponse());
 }
 
 export function clearReducer() {
-    store.dispatch(action.initialState());
+    store.dispatch(types.initialState());
+}
+
+export function updateBookingRequest(bookingRequest) {
+    store.dispatch(types.updateBookingRequest(bookingRequest));
 }
 
 export function postBookingRequests(startWorkTime, finishWorkTime, bookingRequests) {
@@ -33,9 +37,9 @@ export function postBookingRequests(startWorkTime, finishWorkTime, bookingReques
             finishWorkTime: finishWorkTime
         }
     })]]).then(response => {
-        store.dispatch(action.postBookingRequestsSucces());
+        store.dispatch(types.postBookingRequestsSucces());
     }).catch(error => {
-        store.dispatch(action.postBookingRequestsUnsucces(error.response));
+        store.dispatch(types.postBookingRequestsUnsucces(error.response));
     })
 }
 
