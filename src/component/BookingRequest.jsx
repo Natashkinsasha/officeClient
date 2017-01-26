@@ -8,6 +8,10 @@ import timeFormat from 'time-format-utils';
 class BookingRequest extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            startWorkTime: this.props.startWorkTime,
+            finishWorkTime: this.props.finishWorkTime,
+        }
 
     }
 
@@ -21,13 +25,12 @@ class BookingRequest extends React.Component {
 
     updateState = (props) => {
         this.setState({
-            startWorkTime: props.startWorkTime,
-            finishWorkTime: props.finishWorkTime,
             id: props.id,
             userId: props.userId,
             submissionData: props.submissionData,
             startTime: props.startTime,
             finishTime: props.finishTime,
+            bookingDateTime: props.bookingDateTime,
         });
     }
 
@@ -45,38 +48,35 @@ class BookingRequest extends React.Component {
     }
 
     onChange = (value) => {
-        if (this.props.onChange != undefined) {
-            this.props.onChange(value);
-        }
+        this.props.onChange(value);
     }
 
-    onBlur = (value) => {
-
-        this.props.onBlur(value);
-    }
 
     render() {
         return (
             <div>
                 <Thumbnail>
+                    <div className=" text-right">
+                        <span className="glyphicon glyphicon-remove" onClick={()=>{
+                            this.props.onRemove(this.state.id);
+                        }}></span>
+                    </div>
                     <Form horizontal>
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={3}>
                                 Name
                             </Col>
-                            <Col sm={9}>
+                            <Col sm={8}>
                                 <FormControl value={this.state.userId} onChange={(e) => {
                                     this.setState({userId: e.target.value});
-                                    this.onChange();
-                                }} onBlur={(e) => {
-                                    var bookingRequest = {
+                                    this.onChange({
                                         id: this.state.id,
                                         userId: e.target.value,
                                         submissionData: this.state.submissionData,
+                                        bookingDateTime: this.state.bookingDateTime,
                                         startTime: this.state.startTime,
                                         finishTime: this.state.finishTime,
-                                    }
-                                    this.onBlur(bookingRequest);
+                                    });
                                 }}/>
                             </Col>
                         </FormGroup>
@@ -84,19 +84,18 @@ class BookingRequest extends React.Component {
                             <Col componentClass={ControlLabel} sm={3}>
                                 <ControlLabel>Date</ControlLabel>
                             </Col>
-                            <Col sm={9}>
+                            <Col sm={8}>
                                 <DatePicker value={this.state.submissionData}
                                             onChange={(value) => {
                                                 this.setState({submissionData: value});
-                                                var bookingRequest = {
+                                                this.onChange({
                                                     id: this.state.id,
                                                     userId: this.state.userId,
                                                     submissionData: value,
                                                     startTime: this.state.startTime,
+                                                    bookingDateTime: this.state.bookingDateTime,
                                                     finishTime: this.state.finishTime,
-                                                }
-                                                this.onBlur(bookingRequest);
-                                                this.onChange(bookingRequest);
+                                                });
                                             }}/>
                             </Col>
                         </FormGroup>
@@ -104,21 +103,20 @@ class BookingRequest extends React.Component {
                             <Col componentClass={ControlLabel} sm={3}>
                                 <ControlLabel>Start time</ControlLabel>
                             </Col>
-                            <Col sm={9}>
+                            <Col sm={8}>
                                 <TimePicker start={timeFormat.secondsToSmallHhmm(this.state.startWorkTime)}
                                             end={timeFormat.secondsToSmallHhmm(this.state.finishWorkTime)} step={30}
                                             value={this.state.startTime}
                                             onChange={(value) => {
                                                 this.setState({startTime: value});
-                                                var bookingRequest = {
+                                                this.onChange({
                                                     id: this.state.id,
                                                     userId: this.state.userId,
                                                     submissionData: this.state.submissionData,
                                                     startTime: value,
+                                                    bookingDateTime: this.state.bookingDateTime,
                                                     finishTime: this.state.finishTime,
-                                                }
-                                                this.onChange(bookingRequest)
-                                                this.onBlur(bookingRequest);
+                                                })
                                             }}/>
                             </Col>
                         </FormGroup>
@@ -126,21 +124,20 @@ class BookingRequest extends React.Component {
                             <Col componentClass={ControlLabel} sm={3}>
                                 <ControlLabel>End time</ControlLabel>
                             </Col>
-                            <Col sm={9}>
+                            <Col sm={8}>
                                 <TimePicker start={timeFormat.secondsToSmallHhmm(this.state.startWorkTime)}
                                             end={timeFormat.secondsToSmallHhmm(this.state.finishWorkTime)} step={30}
                                             value={this.state.finishTime}
                                             onChange={(value) => {
                                                 this.setState({finishTime: value});
-                                                var bookingRequest = {
+                                                this.onChange({
                                                     id: this.state.id,
                                                     userId: this.state.userId,
                                                     submissionData: this.state.submissionData,
                                                     startTime: this.state.startTime,
+                                                    bookingDateTime: this.state.bookingDateTime,
                                                     finishTime: value,
-                                                }
-                                                this.onChange(bookingRequest)
-                                                this.onBlur(bookingRequest);
+                                                })
                                             }}/>
                             </Col>
                         </FormGroup>

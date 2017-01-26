@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import StatementContainer from './container/StatmentContainer.jsx';
 import AppContainer from './container/AppContainer.jsx';
 import store from './store/configureStore';
 import {Router, IndexRedirect, Route, browserHistory} from 'react-router';

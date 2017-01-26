@@ -3,6 +3,7 @@ import lodash from 'lodash';
 const initialState = {
         response: null,
         bookingRequests: [],
+
     }
     ;
 
@@ -22,7 +23,7 @@ const bookingRequestsReducer = function (state = initialState, action) {
             return Object.assign({}, state, initialState);
 
         case types.REMOVE_BOOKINGREQUEST:
-            var newbookingRequests = _.filter(state.bookingRequests, bookingRequests => bookingRequest.id != action.id);
+            var newbookingRequests = _.filter(state.bookingRequests, (bookingRequest) => bookingRequest.id != action.id);
             return Object.assign({}, state, {bookingRequests: newbookingRequests});
 
         case types.ADD_BOOKINGREQUEST:
