@@ -9,7 +9,6 @@ const initialState = {
 
 const bookingRequestsReducer = function (state = initialState, action) {
     switch (action.type) {
-
         case types.POST_BOOKINGREQUESTS_SUCCESS:
             return Object.assign({}, state, {bookingRequests: [], response: action.response});
 
@@ -33,8 +32,14 @@ const bookingRequestsReducer = function (state = initialState, action) {
         case types.UPDATE_BOOKINGREQUEST:
             var newbookingRequests = _.cloneDeep(state.bookingRequests);
             var index = _.indexOf(newbookingRequests, _.find(newbookingRequests, {id: action.bookingRequest.id}));
-            newbookingRequests[index]=action.bookingRequest;
+            newbookingRequests[index] = action.bookingRequest;
             return Object.assign({}, state, {bookingRequests: newbookingRequests});
+
+        case types.DELETE_BOOKINGREQUESTS_SUCCESS:
+            return Object.assign({}, state, {response: action.response});
+
+        case types.DELETE_BOOKINGREQUESTS_UNSUCCESS:
+            return Object.assign({}, state, {response: action.response});
 
     }
     return state;

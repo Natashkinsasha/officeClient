@@ -104,9 +104,7 @@ class BookingRequest extends React.Component {
                                 <ControlLabel>Start time</ControlLabel>
                             </Col>
                             <Col sm={8}>
-                                <TimePicker start={timeFormat.secondsToSmallHhmm(this.state.startWorkTime)}
-                                            end={timeFormat.secondsToSmallHhmm(this.state.finishWorkTime)} step={30}
-                                            value={this.state.startTime}
+                                <TimePicker value={this.state.startTime}
                                             onChange={(value) => {
                                                 this.setState({startTime: value});
                                                 this.onChange({
@@ -125,9 +123,7 @@ class BookingRequest extends React.Component {
                                 <ControlLabel>End time</ControlLabel>
                             </Col>
                             <Col sm={8}>
-                                <TimePicker start={timeFormat.secondsToSmallHhmm(this.state.startWorkTime)}
-                                            end={timeFormat.secondsToSmallHhmm(this.state.finishWorkTime)} step={30}
-                                            value={this.state.finishTime}
+                                <TimePicker value={this.state.finishTime}
                                             onChange={(value) => {
                                                 this.setState({finishTime: value});
                                                 this.onChange({

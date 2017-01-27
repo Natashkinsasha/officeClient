@@ -6,42 +6,52 @@ import Statement from '../component/Statement.jsx'
 import {Row, Col} from 'react-bootstrap'
 import {connect} from "react-redux";
 import * as bookingRequestsApi from '../api/bookingRequests-api';
+import * as scheduleApi from '../api/schedule-api'
+import * as typesBookingRequests from "../actions/bookingRequests-action";
+import * as typesParameters from "../actions/parameterSerch-action"
 
 class AppContainer extends React.Component {
 
-
-    post = (startWorkTime, finishWorkTime, bookingRequests) => {
-        bookingRequestsApi.postBookingRequests(startWorkTime, finishWorkTime, bookingRequests);
+    post = () => {
+        console.log(this.props)
+        bookingRequestsApi.postBookingRequests(this.props.bookingRequests);
     }
 
-    add = (bookingRequest) => {
-        bookingRequestsApi.addBookingRequest(bookingRequest);
+
+    search = () => {
+        scheduleApi.getSchedule(this.props.parameters.startWorkTime,
+            this.props.parameters.finishWorkTime,
+            this.props.parameters.startData,
+            this.props.parameters.finishData
+        )
     }
 
-    remove = (id) => {
-        bookingRequestsApi.removeBookingRequest(id);
+    deleteAll = () => {
+        bookingRequestsApi.deleteAllBookingRequests();
     }
-
-    update = (bookingRequest) => {
-        bookingRequestsApi.updateBookingRequest(bookingRequest);
-    }
-
 
     render() {
         return (
             <div>
                 <App>
                     <Row>
-                        <CleverPanel response = {this.props.response}/>
+                        <CleverPanel response={this.props.response}/>
                     </Row>
                     <Row>
                         <Col lg={6} md={6} sm={12}>
-                            <Statement bookingRequests={this.props.bookingRequests} onAdd={this.add}
-                                       onRemove={this.remove}
-                                       onPost={this.post} onUpdate={this.update}/>
+                            <Statement bookingRequests={this.props.bookingRequests}
+                                       onAdd={this.props.add}
+                                       onRemove={this.props.remove}
+                                       onPost={this.post}
+                                       onUpdate={this.props.updateBookingRequest}/>
                         </Col>
                         <Col lg={6} md={6} sm={12}>
-                            <Schedule daySchedules={this.props.daySchedules}/>
+                            <Schedule daySchedules={this.props.daySchedules}
+                                      parameters={this.props.parameters}
+                                      onDeleteAll={this.deleteAll}
+                                      onSearch={this.search}
+                                      onUpdate={this.props.updateParameters}
+                            />
                         </Col>
                     </Row>
                 </App>
@@ -50,11 +60,36 @@ class AppContainer extends React.Component {
     }
 }
 
+
 const mapStateToProps = (store) => {
     return {
-        daySchedules: store.daySchedulesState.daySchedules,
         bookingRequests: store.bookingRequestsState.bookingRequests,
-        response: store.bookingRequestsState.response
+        daySchedules: store.daySchedulesState.daySchedules,
+        response: store.bookingRequestsState.response,
+        parameters: store.parametersState
     }
 };
-export default connect(mapStateToProps)(AppContainer);
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        add: (bookingRequest) => {
+            dispatch(typesBookingRequests.addBookingRequest(bookingRequest));
+        },
+
+        remove: (id) => {
+            dispatch(typesBookingRequests.removeBookingRequest(id));
+        },
+
+        updateBookingRequest: (bookingRequest) => {
+            dispatch(typesBookingRequests.updateBookingRequest(bookingRequest));
+        },
+
+        updateParameters: (parameters) => {
+            dispatch(typesParameters.updateParameters(parameters))
+        }
+    }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps, )(AppContainer);

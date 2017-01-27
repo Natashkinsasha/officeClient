@@ -49,6 +49,20 @@ export function updateBookingRequest(bookingRequest) {
     };
 }
 
+export function deleteBookingRequestsSuccess(response) {
+    return {
+        type: types.DELETE_BOOKINGREQUESTS_SUCCESS,
+        response: response,
+    };
+}
+
+export function deleteBookingRequestsUnsuccess(response) {
+    return {
+        type: types.DELETE_BOOKINGREQUESTS_UNSUCCESS,
+        response: response,
+    };
+}
+
 
 
 
