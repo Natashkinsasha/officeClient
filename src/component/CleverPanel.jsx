@@ -23,12 +23,15 @@ class CleverPanel extends React.Component {
     }
 
     render() {
+        console.log(this.props.response)
         if (this.props.response != null) {
             return (
                 <div className={this.bsStyle(this.props.response.status)} role="alert">
                     <button type="button" className="close" data-dismiss="alert"
                             aria-label="Close"><span aria-hidden="true">×</span></button>
                     <strong>{this.props.response.statusText}</strong>
+                    <br/>
+                    {JSON.stringify(this.props.response.data)}
                 </div>
             );
         }
