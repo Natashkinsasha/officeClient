@@ -11,7 +11,7 @@ export function getSchedule(startWorkTime, finishWorkTime, startData, finishData
             startWorkTime: startWorkTime,
             finishWorkTime: finishWorkTime,
             startData: Number(moment(startData).startOf('day').format('X')),
-            finishData: Number(moment(finishData).startOf('day').format('X')),
+            finishData: Number(moment(finishData).startOf('day').add(1,"d").format('X')),
         },
         baseURL: 'http://localhost:8080/',
         responseType: 'json',

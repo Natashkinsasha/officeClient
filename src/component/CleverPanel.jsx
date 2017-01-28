@@ -15,6 +15,8 @@ class CleverPanel extends React.Component {
         switch (status) {
             case 200:
                 return "alert alert-success";
+            case 201:
+                return "alert alert-success";
             default:
                 return "alert alert-danger";
         }
