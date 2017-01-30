@@ -9,11 +9,11 @@ import * as bookingRequestsApi from '../api/bookingRequests-api';
 import * as scheduleApi from '../api/schedule-api'
 import * as typesBookingRequests from "../actions/bookingRequests-action";
 import * as typesParameters from "../actions/parameterSerch-action"
+import * as typesDaySchedule  from "../actions/daySchedule-action";
 
 class AppContainer extends React.Component {
 
     post = () => {
-        console.log(this.props)
         bookingRequestsApi.postBookingRequests(this.props.bookingRequests);
     }
 
@@ -35,7 +35,10 @@ class AppContainer extends React.Component {
             <div>
                 <App>
                     <Row>
-                        <CleverPanel response={this.props.response}/>
+                        <CleverPanel response={this.props.scheduleResponse} onClose={this.props.closeScheduleResponse}/>
+                    </Row>
+                    <Row>
+                        <CleverPanel response={this.props.statementResponse} onClose={this.props.closeStatementResponse}/>
                     </Row>
                     <Row>
                         <Col lg={6} md={6} sm={12}>
@@ -65,8 +68,9 @@ const mapStateToProps = (store) => {
     return {
         bookingRequests: store.bookingRequestsState.bookingRequests,
         daySchedules: store.daySchedulesState.daySchedules,
-        response: store.bookingRequestsState.response,
-        parameters: store.parametersState
+        statementResponse: store.bookingRequestsState.response,
+        scheduleResponse: store.daySchedulesState.response,
+        parameters: store.parametersState.parameters
     }
 };
 
@@ -87,6 +91,14 @@ const mapDispatchToProps = (dispatch) => {
 
         updateParameters: (parameters) => {
             dispatch(typesParameters.updateParameters(parameters))
+        },
+
+        closeStatementResponse: () =>{
+            dispatch(typesBookingRequests.closeBookingRequestsResponse())
+        },
+
+        closeScheduleResponse: () =>{
+            dispatch(typesDaySchedule.closeDaySchedulesResponse())
         }
     }
 }

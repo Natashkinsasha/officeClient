@@ -8,5 +8,13 @@ export function updateParameters(parameters) {
 }
 
 
+export function closeParametersResponse() {
+    return {
+        type: types.CLOSE_PARAMETERS_RESPONSE,
+    };
+
+}
+
+
 
 

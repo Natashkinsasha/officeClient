@@ -5,11 +5,7 @@ class CleverPanel extends React.Component {
     constructor(props) {
         super(props);
     }
-    componentWillReceiveProps(nextProps) {
-        console.log("12345365646757")
-        console.log(nextProps);
 
-    }
 
     bsStyle = (status) => {
         switch (status) {
@@ -23,15 +19,17 @@ class CleverPanel extends React.Component {
     }
 
     render() {
-        console.log(this.props.response)
+
+
+
         if (this.props.response != null) {
             return (
                 <div className={this.bsStyle(this.props.response.status)} role="alert">
-                    <button type="button" className="close" data-dismiss="alert"
+                    <button type="button" className="close" onClick={this.props.onClose}
                             aria-label="Close"><span aria-hidden="true">×</span></button>
                     <strong>{this.props.response.statusText}</strong>
-                    <br/>
-                    {JSON.stringify(this.props.response.data)}
+                    {this.props.response.data.length != 0 ? <div><br/>{`${JSON.stringify(this.props.response.data)}`}</div> :
+                        <div></div>}
                 </div>
             );
         }
