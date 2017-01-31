@@ -5,9 +5,7 @@ import * as typesBookingRequests from "../actions/bookingRequests-action";
 import moment from 'moment'
 
 export function getSchedule(startWorkTime, finishWorkTime, startData, finishData) {
-    store.dispatch(typesDaySchedule.closeDaySchedulesResponse());
-    store.dispatch(typesBookingRequests.closeBookingRequestsResponse());
-    axios.get('/api/daySchedule', {
+    return axios.get('/api/daySchedule', {
         params: {
             startWorkTime: startWorkTime,
             finishWorkTime: finishWorkTime,
@@ -16,9 +14,5 @@ export function getSchedule(startWorkTime, finishWorkTime, startData, finishData
         },
         baseURL: 'http://localhost:8080/',
         responseType: 'json',
-    }).then(response => {
-        store.dispatch(typesDaySchedule.getDaySchedulesSuccess(response.data, response));
-    }).catch(error => {
-        store.dispatch(typesDaySchedule.getDaySchedulesUnsuccess(error.response))
     })
 }

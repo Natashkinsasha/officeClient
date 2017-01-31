@@ -6,8 +6,6 @@ import moment from 'moment'
 
 
 export function postBookingRequests(bookingRequests) {
-    store.dispatch(typesBookingRequests.closeBookingRequestsResponse());
-    store.dispatch(typesDaySchedule.closeDaySchedulesResponse());
     var newBookingRequests = _.map(bookingRequests, (bookingRequest) => {
         var duration = bookingRequest.finishTime - bookingRequest.startTime;
         var submissionTime = Number(moment(bookingRequest.submissionData).startOf('day').format('X')) + bookingRequest.startTime;
@@ -19,28 +17,33 @@ export function postBookingRequests(bookingRequests) {
         };
         return newBookingRequest;
     })
-
-    axios.post('/api/bookingRequest/createWithArray', newBookingRequests, {
+    return axios.post('/api/bookingRequest/createWithArray', newBookingRequests, {
         baseURL: 'http://localhost:8080/',
         responseType: 'json',
-    }).then(response => {
-        store.dispatch(typesBookingRequests.postBookingRequestsSucces(response));
-    }).catch(error => {
-        store.dispatch(typesBookingRequests.postBookingRequestsUnsucces(error.response));
+    })
+}
+export function deleteAllBookingRequests() {
+    return axios.delete('api/bookingRequest', {
+        baseURL: 'http://localhost:8080/',
     })
 }
 
-export function deleteAllBookingRequests() {
-    store.dispatch(typesBookingRequests.closeBookingRequestsResponse());
-    store.dispatch(typesDaySchedule.closeDaySchedulesResponse());
-    axios.delete('api/bookingRequest', {
+export function getBookingRequests(pageNumber, pageSize, sortBy, sortDirection, startWorkTime, finishWorkTime, startData, finishData) {
+    return axios.get('api/bookingRequest', {
+        params: {
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+            sortBy: sortBy,
+            sortDirection: sortDirection,
+            startWorkTime: startWorkTime,
+            finishWorkTime: finishWorkTime,
+            startData: Number(moment(startData).startOf('day').format('X')),
+            finishData: Number(moment(finishData).startOf('day').add(1, "d").format('X')),
+        },
         baseURL: 'http://localhost:8080/',
-    }).then(response => {
-        store.dispatch(typesBookingRequests.deleteBookingRequestsSuccess(response));
-    }).catch(error => {
-        store.dispatch(typesBookingRequests.deleteBookingRequestsUnsuccess(error.response));
     })
 }
+
 
 
 

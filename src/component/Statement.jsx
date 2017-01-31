@@ -7,11 +7,15 @@ import uniqueid from 'uniqueid';
 
 class Statement extends React.Component {
 
+    state = {
+        isLoadingPost: false,
+    }
 
     constructor(props) {
         super(props);
         this.generatorId = uniqueid();
     }
+
 
     onAddClick = () => {
         this.props.onAdd({
@@ -25,7 +29,7 @@ class Statement extends React.Component {
     }
 
     onPostClick = () => {
-        this.props.onPost()
+        return this.props.onPost()
     }
 
     render() {
@@ -51,12 +55,19 @@ class Statement extends React.Component {
                         }, this)
                     }
                     <Button bsStyle="primary" bsSize="large" block onClick={this.onAddClick}>Add</Button>
-                    <Button bsStyle="success" bsSize="large" block onClick={this.onPostClick}>Send</Button>
-                </Well>
-            </div>
+                    <Button bsStyle="success" bsSize="large" disabled={this.state.isLoadingPost} block onClick={() => {
+                        this.setState({isLoadingPost: true});
+                        this.onPostClick().then(() => {
+                                this.setState({isLoadingPost: false})
+                            }
+                        );
+                    }
+                    }>Send</Button>
+                        </Well>
+                        </div>
 
-        )
-    }
-}
+                        )
+                    }
+                    }
 
-export default Statement;
+                    export default Statement;

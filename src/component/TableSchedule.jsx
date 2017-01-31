@@ -1,42 +1,37 @@
 import React from "react";
 import {Form, ControlLabel, FormControl, FormGroup} from 'react-bootstrap'
-import moment from 'moment'
 import timeFormat from 'time-format-utils'
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import moment from 'moment';
+import TimeFormat from 'time-format-utils'
+
 class TableSchedule extends React.Component {
     constructor(props) {
         super(props);
     }
 
-    daySchedulesConvert = (daySchedules) => {
-        return _.reduce(daySchedules, (result, daySchedule) => {
-            var newDaySchedule = {
-                date: moment.unix(daySchedule.date).format("YYYY-MM-DD"),
-                reservations: _.map(daySchedule.reservations, (reservation) => {
-                    return {
-                        userId: reservation.userId,
-                        start: timeFormat.secondsToSmallHhmm(reservation.startDuration),
-                        finish: timeFormat.secondsToSmallHhmm(reservation.finishDuration)
-                    }
-                })
-            }
 
-            var newStringDaySchedule = newDaySchedule.date + "\n" + _.reduce(newDaySchedule.reservations, (result, reservation) => {
-                    return result + reservation.start + " " + reservation.finish + " " + reservation.userId + "\n";
-                }, "");
-            return result + newStringDaySchedule;
-        }, "")
-    }
+
 
     render() {
+
+        console.log(this.props)
+        function dataFormatter(cell, row) {
+            return moment(row.startSubmissionData).format("dddd, MMMM Do YYYY");
+        }
+
+        function durationFormatter(cell, row) {
+            return TimeFormat.secondsToHhmm(row.startSubmissionTime)+" - "+TimeFormat.secondsToHhmm(row.finishSubmissionTime);
+        }
+
         return (
             <div>
-                <Form horizontal>
-                    <FormGroup controlId="formControlsTextarea">
-                        <ControlLabel>Sсhedule</ControlLabel>
-                        <FormControl style={{height: 200}} componentClass="textarea" readOnly
-                                     value={this.daySchedulesConvert(this.props.daySchedules)}/>
-                    </FormGroup>
-                </Form>
+                <BootstrapTable data={this.props.bookingRequests} remote={ true } pagination={ true } striped hover condensed>
+                    <TableHeaderColumn dataField="id" isKey={true} hidden>Id</TableHeaderColumn>
+                    <TableHeaderColumn dataField="userId" >User id</TableHeaderColumn>
+                    <TableHeaderColumn dataFormat={dataFormatter}>Submission data</TableHeaderColumn>
+                    <TableHeaderColumn dataFormat={durationFormatter}>Time</TableHeaderColumn>
+                </BootstrapTable>
             </div>
         );
     }
