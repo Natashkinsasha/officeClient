@@ -6,6 +6,8 @@ import moment from 'moment'
 
 
 export function postBookingRequests(bookingRequests) {
+    store.dispatch(typesBookingRequests.closeBookingRequestsResponse());
+    store.dispatch(typesDaySchedule.closeDaySchedulesResponse());
     var newBookingRequests = _.map(bookingRequests, (bookingRequest) => {
         var duration = bookingRequest.finishTime - bookingRequest.startTime;
         var submissionTime = Number(moment(bookingRequest.submissionData).startOf('day').format('X')) + bookingRequest.startTime;
@@ -29,11 +31,12 @@ export function postBookingRequests(bookingRequests) {
 }
 
 export function deleteAllBookingRequests() {
+    store.dispatch(typesBookingRequests.closeBookingRequestsResponse());
+    store.dispatch(typesDaySchedule.closeDaySchedulesResponse());
     axios.delete('api/bookingRequest', {
         baseURL: 'http://localhost:8080/',
     }).then(response => {
         store.dispatch(typesBookingRequests.deleteBookingRequestsSuccess(response));
-        store.dispatch(typesDaySchedule.removeDaySchedules());
     }).catch(error => {
         store.dispatch(typesBookingRequests.deleteBookingRequestsUnsuccess(error.response));
     })

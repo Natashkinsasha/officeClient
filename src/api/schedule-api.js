@@ -1,9 +1,12 @@
 import axios from "axios";
 import store from "../store/configureStore";
 import * as typesDaySchedule  from "../actions/daySchedule-action";
+import * as typesBookingRequests from "../actions/bookingRequests-action";
 import moment from 'moment'
 
 export function getSchedule(startWorkTime, finishWorkTime, startData, finishData) {
+    store.dispatch(typesDaySchedule.closeDaySchedulesResponse());
+    store.dispatch(typesBookingRequests.closeBookingRequestsResponse());
     axios.get('/api/daySchedule', {
         params: {
             startWorkTime: startWorkTime,

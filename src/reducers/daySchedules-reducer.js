@@ -10,6 +10,9 @@ const daySchedulesReducer = function (state = initialState, action) {
         case types.REMOVE_DAYSCHEDULES:
             return Object.assign({}, state, {daySchedules: []});
 
+        case types.DELETE_BOOKINGREQUESTS_SUCCESS:
+            return Object.assign({}, state, {daySchedules: []});
+
         case types.GET_DAYSCHEDULES_SUCCESS:
             return Object.assign({}, state, {daySchedules: action.daySchedules, response: action.response});
 
