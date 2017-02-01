@@ -9,6 +9,7 @@ module.exports = {
         publicPath: "/build",
         filename: "bundle.js"
     },
+    devtool: "source-map",
     module: {
         loaders: [
             {
@@ -28,18 +29,15 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: 'style!css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass',
-                exclude: [/node_modules/, /public/]
+                loader: "style-loader!css-loader"
             },
             {
                 test: /\.less$/,
-                loader: "style-loader!css-loader!autoprefixer-loader!less",
-                exclude: [/node_modules/, /public/]
+                loader: "style-loader!css-loader!less-loader?strictMath&noIeCompat"
             },
             {
                 test: /\.scss$/,
-                loaders: ["style-loader", "css-loader", "sass-loader", 'postcss-loader'],
-                exclude: [/node_modules/, /public/]
+                loaders: ["style", "css", "sass"]
             },
             {
                 test: /\.gif$/,
@@ -86,6 +84,7 @@ module.exports = {
             $: "jquery/dist/jquery.min.js",
             jQuery: "jquery/dist/jquery.min.js",
             "window.jQuery": "jquery/dist/jquery.min.js"
-        })
+        }),
+
     ],
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import App from '../component/App.jsx'
 import CleverPanel from '../component/CleverPanel.jsx'
+import CleverModal from '../component/CleverModal.jsx'
 import Schedule from '../component/Schedule.jsx'
 import Statement from '../component/Statement.jsx'
 import {Row, Col} from 'react-bootstrap'
@@ -15,14 +16,21 @@ import moment from 'moment';
 class ScheduleContainer extends React.Component {
 
     state = {
-        scheduleResponse: null,
+        successResponse: null,
+        errorResponse:null,
         parameters: {
             startWorkTime: 0,
             finishWorkTime: 0,
             startData: moment().toISOString(),
             finishData: moment().toISOString(),
         },
-        bookingRequests: []
+        bookingRequests: {
+            content: [],
+            size: 5,
+            totalElements: 0,
+            sortName: ["userId"],
+            sortOrder: "asc"
+        }
     }
 
     updateParameters = (parameters) => {
@@ -33,43 +41,122 @@ class ScheduleContainer extends React.Component {
         this.setState({response: null});
     }
 
-    search = () => {
-        return bookingRequestsApi.getBookingRequests(1,5,"userId","test",this.state.parameters.startWorkTime,
+    deleteAll = () => {
+        return bookingRequestsApi.deleteAllBookingRequests().then((response) => {
+            this.setState({successResponse: response});
+        }).catch((error) => {
+            this.setState({errorResponse: error.response})
+        })
+    }
+
+    closeErrorResponse = () => {
+        this.setState({errorResponse: null});
+    }
+
+    closeSuccessResponse = () => {
+        this.setState({successResponse: null});
+    }
+
+    searchHolder = (page, size, sortBy, direction) => {
+        return bookingRequestsApi.getBookingRequests(page, size, sortBy, direction, this.state.parameters.startWorkTime,
             this.state.parameters.finishWorkTime,
             this.state.parameters.startData,
             this.state.parameters.finishData
         ).then((response) => {
-            this.setState({response: response, bookingRequests: response.data});
+            this.setState({
+                successResponse: response,
+                bookingRequests: Object.assign({}, this.state.bookingRequests, response.data)
+            });
         }).catch((error) => {
-            this.setState({response: error.response});
+            this.setState({errorResponse: error.response});
         });
     }
 
-    deleteAll = () => {
-        return bookingRequestsApi.deleteAllBookingRequests().then((response) => {
-            this.setState({response: response});
-        }).catch((error) => {
-            this.setState({response: error.response})
-        })
+    search = () => {
+        this.searchHolder(0, this.state.bookingRequests.size, this.state.bookingRequests.sortName, this.state.bookingRequests.sortOrder);
     }
 
-    closeScheduleResponse = () => {
-        this.setState({response: null});
+    onPageChange = (page, sizePerPage) => {
+        if (this.state.bookingRequests.totalElements == 0) {
+            this.setState({
+                bookingRequests: Object.assign({}, this.state.bookingRequests, {
+                    size: sizePerPage,
+                    number: page
+                })
+            });
+        } else {
+            return this.searchHolder(page - 1, sizePerPage, this.state.bookingRequests.sortName, this.state.bookingRequests.sortOrder);
+        }
+    }
+
+    onSizePerPageList = (sizePerPage) => {
+        if (this.state.bookingRequests.totalElements == 0) {
+            this.setState({bookingRequests: Object.assign({}, this.state.bookingRequests, {size: sizePerPage})});
+        } else {
+            return this.searchHolder(0, sizePerPage, this.state.bookingRequests.sortName, this.state.bookingRequests.sortOrder);
+        }
+    }
+
+    onSortChange = (sortName, sortOrder) => {
+        switch (sortName) {
+            case "userId":
+                sortName=["userId"];
+                this.setState({
+                    bookingRequests: Object.assign({}, this.state.bookingRequests, {
+                        sortName: sortName,
+                        sortOrder: sortOrder
+                    })
+                });
+                break;
+            case "data":
+                sortName=["startSubmissionData", "startSubmissionTime"];
+                this.setState({
+                    bookingRequests: Object.assign({}, this.state.bookingRequests, {
+                        sortName: sortName,
+                        sortOrder: sortOrder
+                    })
+                });
+                break;
+            case "time":
+                sortName=["startSubmissionTime"];
+                this.setState({
+                    bookingRequests: Object.assign({}, this.state.bookingRequests, {
+                        sortName: sortName,
+                        sortOrder: sortOrder
+                    })
+                });
+                break;
+            case "bookingDateTime":
+                sortName=["startSubmissionTime"];
+                this.setState({
+                    bookingRequests: Object.assign({}, this.state.bookingRequests, {
+                        sortName: sortName,
+                        sortOrder: sortOrder
+                    })
+                });
+                break;
+
+            default:
+                return;
+        }
+        if (this.state.bookingRequests.totalElements != 0) {
+            return this.searchHolder(0, this.state.bookingRequests.size, sortName, sortOrder)
+        }
     }
 
     render() {
-        console.log(this.state)
         return (
             <div>
-                <Row>
-                    <CleverPanel response={this.state.scheduleResponse} onClose={this.closeScheduleResponse}/>
-                </Row>
                 <Row>
                     <Schedule bookingRequests={this.state.bookingRequests}
                               parameters={this.state.parameters}
                               onDeleteAll={this.deleteAll}
                               onSearch={this.search}
-                              onUpdate={this.updateParameters}/>
+                              onUpdate={this.updateParameters}
+                              onPageChange={this.onPageChange}
+                              onSizePerPageList={this.onSizePerPageList}
+                              onSortChange={this.onSortChange}
+                    />
                 </Row>
             </div>
         )

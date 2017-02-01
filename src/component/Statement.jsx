@@ -63,11 +63,11 @@ class Statement extends React.Component {
                         );
                     }
                     }>Send</Button>
-                        </Well>
-                        </div>
+                </Well>
+            </div>
 
-                        )
-                    }
-                    }
+        )
+    }
+}
 
-                    export default Statement;
+export default Statement;
