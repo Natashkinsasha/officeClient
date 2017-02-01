@@ -78,10 +78,10 @@ class StatementContainer extends React.Component {
                                    onUpdate={this.updateBookingRequest}/>
                     </Col>
                 </Row>
-                <Row>
+
                     <CleverPanel response={this.state.successResponse}
                                  onClose={this.closeSuccessResponse}/>
-                </Row>
+
 
             </div>
         )

@@ -75,7 +75,8 @@ module.exports = {
     devServer: {
         contentBase: "./public",
         hot: true,
-        port: 8000
+        port: 8000,
+        historyApiFallback: true,
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),

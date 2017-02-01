@@ -1,6 +1,6 @@
 import React from 'react';
 import {Navbar, NavItem, Nav} from 'react-bootstrap';
-import {Link} from 'react-router'
+import {Link, browserHistory} from 'react-router'
 
 class Navigation extends React.Component {
     constructor(props) {
@@ -17,7 +17,9 @@ class Navigation extends React.Component {
                         </Navbar.Brand>
                     </Navbar.Header>
                     <Nav>
-                        <NavItem eventKey={1}><Link to="/schedule">Schedule</Link></NavItem>
+                        <NavItem eventKey={1} onClick={() => {
+                            browserHistory.push("/schedule")
+                        }}>Schedule</NavItem>
                     </Nav>
                 </Navbar>
             </div>);
