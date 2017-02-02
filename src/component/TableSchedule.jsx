@@ -44,7 +44,7 @@ class TableSchedule extends React.Component {
                     <TableHeaderColumn dataField="userId" dataSort={ true }>User id</TableHeaderColumn>
                     <TableHeaderColumn dataField="bookingDateTime" dataFormat={bookingDataFormatter} dataSort={ true }>Booking data</TableHeaderColumn>
                     <TableHeaderColumn dataField="data" dataFormat={submissionDataFormatter} dataSort={ true }>Submission data</TableHeaderColumn>
-                    <TableHeaderColumn dataField="time" dataFormat={durationFormatter} dataSort={ true }>Time</TableHeaderColumn>
+                    <TableHeaderColumn dataField="time" dataFormat={durationFormatter}>Time</TableHeaderColumn>
                 </BootstrapTable>
             </div>
         );

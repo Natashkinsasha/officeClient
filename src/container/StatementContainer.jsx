@@ -11,6 +11,7 @@ import * as scheduleApi from '../api/schedule-api'
 import * as typesBookingRequests from "../actions/bookingRequests-action";
 import * as typesParameters from "../actions/parameterSerch-action"
 import * as typesDaySchedule  from "../actions/daySchedule-action";
+import lodash from 'lodash';
 
 class StatementContainer extends React.Component {
 
@@ -49,6 +50,7 @@ class StatementContainer extends React.Component {
 
     post = () => {
         return bookingRequestsApi.postBookingRequests(this.state.bookingRequests).catch((error) => {
+            //Обработчик на сервернные ошибки
             return Promise.reject(error.response);
         }).then((response) => {
             if (response.data.length != 0) {
@@ -56,12 +58,11 @@ class StatementContainer extends React.Component {
             }
             return response
         }).then((response) => {
-            console.log(response.data)
             this.setState({successResponse: response, bookingRequests: []});
         }).catch((response) => {
-            console.log(response.data)
-            this.setState({errorResponse: response, bookingRequests: []});
-        });
+            var newbookingRequests = _.intersectionBy(this.state.bookingRequests, response.data, 'id');
+            this.setState({errorResponse: response, bookingRequests: newbookingRequests});
+        })
     };
 
 

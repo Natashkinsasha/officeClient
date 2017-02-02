@@ -73,7 +73,7 @@ class ScheduleContainer extends React.Component {
     }
 
     search = () => {
-        this.searchHolder(0, this.state.bookingRequests.size, this.state.bookingRequests.sortName, this.state.bookingRequests.sortOrder);
+        return this.searchHolder(0, this.state.bookingRequests.size, this.state.bookingRequests.sortName, this.state.bookingRequests.sortOrder);
     }
 
     onPageChange = (page, sizePerPage) => {
@@ -127,7 +127,7 @@ class ScheduleContainer extends React.Component {
                 });
                 break;
             case "bookingDateTime":
-                sortName=["startSubmissionTime"];
+                sortName=["bookingDateTime"];
                 this.setState({
                     bookingRequests: Object.assign({}, this.state.bookingRequests, {
                         sortName: sortName,

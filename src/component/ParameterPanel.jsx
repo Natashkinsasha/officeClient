@@ -14,10 +14,10 @@ class ParameterPanel extends React.Component {
 
                     <Form horizontal>
                         <FormGroup>
-                            <Col componentClass={ControlLabel} lg={5}>
+                            <Col componentClass={ControlLabel}>
                                 <ControlLabel>Start work time</ControlLabel>
                             </Col>
-                            <Col lg={7}>
+                            <Col>
                                 <TimePicker step={30} value={this.props.parameters.startWorkTime}
                                             onChange={(value) => {
                                                 this.props.onUpdate({
@@ -27,10 +27,10 @@ class ParameterPanel extends React.Component {
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Col componentClass={ControlLabel} lg={5}>
+                            <Col componentClass={ControlLabel}>
                                 <ControlLabel>End work time</ControlLabel>
                             </Col>
-                            <Col lg={7}>
+                            <Col>
                                 <TimePicker step={30} value={this.props.parameters.finishWorkTime}
                                             onChange={(value) => {
                                                 this.props.onUpdate({
@@ -40,10 +40,10 @@ class ParameterPanel extends React.Component {
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Col componentClass={ControlLabel} lg={5}>
+                            <Col componentClass={ControlLabel}>
                                 <ControlLabel>Start data</ControlLabel>
                             </Col>
-                            <Col lg={7}>
+                            <Col>
                                 <DatePicker value={this.props.parameters.startData}
                                             onChange={(value) => {
                                                 this.props.onUpdate({
@@ -53,10 +53,10 @@ class ParameterPanel extends React.Component {
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Col componentClass={ControlLabel} lg={5}>
+                            <Col componentClass={ControlLabel}>
                                 <ControlLabel>End data</ControlLabel>
                             </Col>
-                            <Col lg={7}>
+                            <Col>
                                 <DatePicker value={this.props.parameters.finishData}
                                             onChange={(value) => {
                                                 this.props.onUpdate({

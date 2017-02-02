@@ -58,9 +58,10 @@ class Statement extends React.Component {
                     <Button bsStyle="success" bsSize="large" disabled={this.state.isLoadingPost} block onClick={() => {
                         this.setState({isLoadingPost: true});
                         this.onPostClick().then(() => {
-                                this.setState({isLoadingPost: false})
-                            }
-                        );
+                            this.setState({isLoadingPost: false});
+                        }).catch(() => {
+                            this.setState({isLoadingPost: false});
+                        });
                     }
                     }>Send</Button>
                 </Well>

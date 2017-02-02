@@ -6,11 +6,11 @@ import moment from 'moment'
 
 
 export function postBookingRequests(bookingRequests) {
-    console.log(bookingRequests)
     var newBookingRequests = _.map(bookingRequests, (bookingRequest) => {
         var duration = bookingRequest.finishTime - bookingRequest.startTime;
         var submissionTime = Number(moment(bookingRequest.submissionData).startOf('day').format('X')) + bookingRequest.startTime;
         var newBookingRequest = {
+            id:bookingRequest.id,
             bookingDateTime: bookingRequest.bookingDateTime,
             userId: bookingRequest.userId,
             submissionTime: submissionTime,

@@ -2,16 +2,21 @@ import React from "react";
 import ParameterPanel from '../component/ParameterPanel.jsx';
 import TableSchedule from '../component/TableSchedule.jsx'
 import {Form, Button, Col, Row, Well} from 'react-bootstrap'
+import ConfirmModal from '../component/ConfirmModal.jsx'
 
 class Schedule extends React.Component {
 
     state = {
-        isLoadingSearch: false
+        isLoadingSearch: false,
+        showModal: false
     }
 
     constructor(props) {
         super(props);
+
     }
+
+
 
 
     render() {
@@ -25,10 +30,17 @@ class Schedule extends React.Component {
                             <Button bsStyle="primary" bsSize="large" block disabled={this.state.isLoadingSearch}
                                     onClick={() => {
                                         this.setState({isLoadingSearch: true});
-                                        this.props.onSearch();
-                                        this.setState({isLoadingSearch: false});
+                                        this.props.onSearch().then(() => {
+                                            this.setState({isLoadingSearch: false});
+                                        }).catch(() => {
+                                            this.setState({isLoadingSearch: false});
+                                        })
+
                                     }}>Search</Button>
-                            <Button bsStyle="warning" bsSize="large" block onClick={this.props.onDeleteAll}>Delete
+                            <Button bsStyle="warning" bsSize="large" disabled={this.state.isLoadingSearch} block
+                                    onClick={() => {
+                                        this.setState({showModal: true, isLoadingSearch: true})
+                                    }}>Delete
                                 all</Button>
                         </Well>
                     </Col>
@@ -41,6 +53,17 @@ class Schedule extends React.Component {
                         />
                     </Col>
                 </Row>
+                <ConfirmModal show={this.state.showModal} onOk={() => {
+                    this.props.onDeleteAll().then(() => {
+                        this.setState({isLoadingSearch: false, showModal: false});
+                    }).catch(() => {
+                        this.setState({isLoadingSearch: false, showModal: false});
+                    })
+                }} onCancel={()=>{
+                    this.setState({isLoadingSearch: false, showModal: false});
+                }} onClose={()=>{
+                    this.setState({isLoadingSearch: false, showModal: false});
+                }}/>
             </div>
 
         )
